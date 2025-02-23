@@ -1,0 +1,10 @@
+{
+  "ticketId": "{{request.path.[1]}}",
+  "currentStatus": "{{#randomValue type='NUMERIC' min=0 max=1}}IN_PROGRESS{{else}}RESOLVED{{/randomValue}}",
+  "technician": "Tech-{{randomValue type='ALPHANUMERIC' length=4 uppercase=true}}",
+  "lastUpdated": "{{now format='yyyy-MM-dd\\'T\\'HH:mm:ss'}}",
+  "resolutionNotes": [
+    "{{randomValue type='TEXT' minLength=20 maxLength=50}}",
+    "{{randomValue type='TEXT' minLength=15 maxLength=30}}"
+  ]
+}

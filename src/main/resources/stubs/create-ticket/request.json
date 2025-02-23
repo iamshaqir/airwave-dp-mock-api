@@ -1,0 +1,6 @@
+{
+  "requestorNames": ["John Doe"],
+  "issueType": "NETWORK_OUTAGE",
+  "priority": "HIGH",
+  "description": "Complete network blackout in downtown area"
+}

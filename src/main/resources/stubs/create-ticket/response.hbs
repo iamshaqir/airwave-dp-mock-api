@@ -1,0 +1,23 @@
+{
+  "ticketId": "{{randomValue type='UUID'}}",
+  "status": "OPEN",
+  "createdAt": "{{now format='yyyy-MM-dd\\'T\\'HH:mm:ss'}}",
+  "assignedTeam": "NETWORK-{{randomValue type='ALPHANUMERIC' length=4 uppercase=true}}",
+  "estimatedResolution": "{{now offset='2 hours' format='yyyy-MM-dd\\'T\\'HH:mm:ss'}}",
+  "referenceNumber": "TKT-{{randomValue type='NUMERIC' length=6}}",
+  "contacts": [
+    {{#each jsonPath request.body '$.requestorNames'}}
+    {
+      "name": "{{this}}",
+      "contactId": "{{randomValue type='UUID'}}",
+      "statusUpdates": [
+        {
+          "updateId": "{{randomValue type='UUID'}}",
+          "timestamp": "{{now format='yyyy-MM-dd\\'T\\'HH:mm:ss'}}",
+          "message": "Ticket created successfully"
+        }
+      ]
+    }{{#unless @last}},{{/unless}}
+    {{/each}}
+  ]
+}

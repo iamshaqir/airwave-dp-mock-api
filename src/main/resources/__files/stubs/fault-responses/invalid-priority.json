@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": "INVALID_PRIORITY",
+    "message": "Priority is required for ticket creation",
+    "details": [
+      "Priority must be one of: LOW, MEDIUM, HIGH, CRITICAL",
+      "Received request: {{jsonPath request.body '$'}}"
+    ]
+  },
+  "timestamp": "{{now format='yyyy-MM-dd\\'T\\'HH:mm:ss'}}",
+  "requestId": "{{randomValue type='UUID'}}"
+}

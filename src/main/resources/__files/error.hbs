@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": "{{request.method}}-ERROR-{{randomValue type='NUMERIC' length=4}}",
+    "message": "Failed to process {{request.path}} request",
+    "details": [
+      "Missing required field: {{jsonPath request.body '$..'}}",
+      "Validation failed at {{now format='HH:mm:ss'}}"
+    ]
+  },
+  "traceId": "{{randomValue type='UUID'}}",
+  "documentationUrl": "/api/docs/errors/{{request.method}}"
+}

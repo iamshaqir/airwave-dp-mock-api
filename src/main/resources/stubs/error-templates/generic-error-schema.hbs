@@ -1,0 +1,11 @@
+{
+  "error": {
+    "code": "INVALID_REQUEST",
+    "message": "Request body does not match schema",
+    "details": [
+      "{{jsonPath request.body '$.errors.[0].message'}}"
+    ]
+  },
+  "timestamp": "{{now format='yyyy-MM-dd\\'T\\'HH:mm:ss'}}",
+  "requestId": "{{randomValue type='UUID'}}"
+}

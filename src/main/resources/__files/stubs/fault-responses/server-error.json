@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": "SERVER_ERROR",
+    "message": "An unexpected error occurred on the server",
+    "details": [
+      "Please try again later",
+      "Contact support if the issue persists"
+    ]
+  },
+  "timestamp": "{{now format='yyyy-MM-dd\\'T\\'HH:mm:ss'}}",
+  "requestId": "{{randomValue type='UUID'}}"
+}
