@@ -15,3 +15,65 @@
   "persistent" : true,
   "insertionIndex" : 0
 }
+
+#!/bin/bash
+
+# Configuration
+JAR_NAME="wiremock-standalone.jar"   # Update this if your JAR name is different
+HOSTNAME="0.0.0.0"                   # Default hostname
+PORT=8080                             # Default port
+PID_FILE="wiremock.pid"               # File to store process ID
+
+# Function to start WireMock
+start() {
+    if [ -f "$PID_FILE" ]; then
+        echo "WireMock is already running (PID: $(cat $PID_FILE))."
+        exit 1
+    fi
+
+    echo "Starting WireMock on host $HOSTNAME and port $PORT..."
+    nohup java -Dwiremock.host=$HOSTNAME -Dwiremock.port=$PORT -jar $JAR_NAME > wiremock.log 2>&1 &
+
+    # Save process ID
+    echo $! > "$PID_FILE"
+    echo "WireMock started (PID: $(cat $PID_FILE))."
+}
+
+# Function to stop WireMock
+stop() {
+    if [ ! -f "$PID_FILE" ]; then
+        echo "WireMock is not running."
+        exit 1
+    fi
+
+    echo "Stopping WireMock..."
+    kill "$(cat $PID_FILE)"
+    rm -f "$PID_FILE"
+    echo "WireMock stopped."
+}
+
+# Function to check WireMock status
+check() {
+    if [ -f "$PID_FILE" ]; then
+        echo "WireMock is running (PID: $(cat $PID_FILE))."
+    else
+        echo "WireMock is not running."
+    fi
+}
+
+# Handle script arguments
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    check)
+        check
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|check}"
+        exit 1
+        ;;
+esac
