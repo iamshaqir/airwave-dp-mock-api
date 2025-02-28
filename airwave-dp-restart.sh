@@ -55,3 +55,76 @@ check() {
         echo "Airwave DP Mock API is not running."
     fi
 }
+
+
+#!/bin/bash
+
+# Configuration
+APP_NAME="wiremock-mock-server"
+JAR_DIR="/app/${APP_NAME}/jar"
+LOG_DIR="/app/${APP_NAME}/log"
+JAR_FILE="${JAR_DIR}/${APP_NAME}.jar"
+LOG_FILE="${LOG_DIR}/${APP_NAME}.log"
+PORT=8080  # Change this if needed
+
+# Ensure log directory exists
+mkdir -p "${LOG_DIR}"
+
+# Get the process count for the JAR
+get_process_count() {
+    pgrep -f "${JAR_FILE}" | wc -l
+}
+
+start() {
+    if [ "$(get_process_count)" -gt 0 ]; then
+        echo "${APP_NAME} is already running."
+    else
+        echo "Starting ${APP_NAME}..."
+        nohup java -jar "${JAR_FILE}" --server.port=${PORT} > "${LOG_FILE}" 2>&1 &
+        sleep 2
+        if [ "$(get_process_count)" -gt 0 ]; then
+            echo "${APP_NAME} started successfully."
+        else
+            echo "Failed to start ${APP_NAME}."
+        fi
+    fi
+}
+
+stop() {
+    if [ "$(get_process_count)" -gt 0 ]; then
+        echo "Stopping ${APP_NAME}..."
+        pkill -f "${JAR_FILE}"
+        sleep 2
+        if [ "$(get_process_count)" -eq 0 ]; then
+            echo "${APP_NAME} stopped successfully."
+        else
+            echo "Failed to stop ${APP_NAME}."
+        fi
+    else
+        echo "${APP_NAME} is not running."
+    fi
+}
+
+check() {
+    if [ "$(get_process_count)" -gt 0 ]; then
+        echo "${APP_NAME} is running."
+    else
+        echo "${APP_NAME} is not running."
+    fi
+}
+
+case "$1" in
+    -start)
+        start
+        ;;
+    -stop)
+        stop
+        ;;
+    -check)
+        check
+        ;;
+    *)
+        echo "Usage: $0 {-start|-stop|-check}"
+        exit 1
+        ;;
+esac
